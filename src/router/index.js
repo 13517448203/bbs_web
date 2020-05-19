@@ -6,6 +6,10 @@ const SpecialArea = () => import('../views/specialArea/SpecialArea')
 const Generalize = () => import('../views/generalize/Generalize')
 const Login = () => import('../views/home/Login')
 const Register = () => import('../views/home/Register')
+const UserInfo = () => import('../views/userinfo/UserInfo')
+const EditInfo = () => import('../views/userinfo/childs/EditInfo')
+const PostDetail = () => import('../components/content/postdetail/PostDetail')
+
 // 1、安装插件
 Vue.use(VueRouter)
 
@@ -28,6 +32,18 @@ const routes = [
   {
     path:'/register',
     component:Register
+  },
+  {
+    path:'/userinfo',
+    component:UserInfo
+  },
+  {
+    path:'/postdetail',
+    component:PostDetail
+  },
+  {
+    path:'/editinfo',
+    component:EditInfo
   },
   {
     path:'/specialArea',

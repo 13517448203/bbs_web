@@ -11,43 +11,49 @@
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="username">UserName</label>
-                      <input type="text" class="form-control" id="username" placeholder="username">
+                      <input type="text" class="form-control" id="username" v-model="RegisterForm.username"
+                             placeholder="username">
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="password">Password</label>
-                      <input type="password" class="form-control" id="password" placeholder="Password">
+                      <input type="password" class="form-control" id="password" v-model="RegisterForm.password"
+                             placeholder="Password">
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-group ">
                       <label for="rePassword">rePassword</label>
-                      <input type="text" class="form-control" id="rePassword" placeholder="rePassword">
+                      <input type="text" class="form-control" id="rePassword" v-model="RegisterForm.rePassword"
+                             placeholder="rePassword">
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="info@abc.com">
+                      <input type="email" class="form-control" id="email" v-model="RegisterForm.email"
+                             placeholder="info@abc.com">
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="telephone">Tel</label>
-                      <input type="text" class="form-control" id="telephone" placeholder="Tel">
+                      <input type="text" class="form-control" id="telephone" v-model="RegisterForm.telephone"
+                             placeholder="Tel">
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-col">
                       <div class="form-group">
                         <label for="code">code</label>
-                        <input type="text" class="form-control" id="code" placeholder="code">
+                        <input type="text" class="form-control" id="code" v-model="RegisterForm.code"
+                               placeholder="code">
                       </div><!--/.form-group -->
                     </div><!--/.col -->
                     <div class="form-col1">
                       <div class="form-group">
-                        <button type="button" class="btn code_btn">
+                        <button type="button" class="btn code_btn" @click="register">
                           获取验证码
                         </button>
                       </div><!--/.form-group -->
@@ -56,11 +62,11 @@
               </form>
             </div><!--/.signin-form -->
             <div class="signin-footer">
-              <button type="button" class="btn signin_btn" data-toggle="modal" data-target=".signin_modal">
+              <button type="button" class="btn signin_btn" @click=" register()">
                 sign up
               </button>
               <p>
-                Already a Member ? <a @click="registerClick('/login')">login</a>
+                Already a Member ? <a @click="loginClick('/login')">login</a>
               </p>
             </div><!--/.signin-footer -->
 
@@ -74,8 +80,30 @@
 <script>
   export default {
     name: "Register",
+    data() {
+      return {
+        RegisterForm: {
+          username: '',
+          password: '',
+          rePassword: '',
+          email: '',
+          telephone: '',
+          code: ''
+        }
+      }
+    },
     methods: {
-      registerClick(path) {
+      register() {
+        let _this = this;
+        if (this.RegisterForm.username === '' || this.RegisterForm.password === ''
+          || this.RegisterForm.email === '' || this.RegisterForm.telephone === ''
+          || this.RegisterForm.code === '') {
+          alert('注册字段不能为空！');
+        } else {
+
+        }
+      },
+      loginClick(path) {
         this.$router.replace(path)
       }
     }
@@ -280,6 +308,7 @@
     box-shadow: 0 5px 30px rgba(60, 191, 163, .3);
     margin-top: 10px;
   }
+
   .btn.code_btn, .btn.code_btn:focus {
     width: 300px;
     padding: 0;
@@ -289,7 +318,7 @@
     font-size: 16px;
     font-family: "CircularStd-Bold";
     text-transform: uppercase;
-    border:1px solid  #26d9b3;
+    border: 1px solid #26d9b3;
     border-radius: 6px;
     box-shadow: 0 5px 30px rgba(60, 191, 163, .1);
     margin-top: 30px;

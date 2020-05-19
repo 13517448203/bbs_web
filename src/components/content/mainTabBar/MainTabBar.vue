@@ -25,9 +25,31 @@
                       v-model="inputSearch">
               </el-input>
             </div>
-            <el-menu-item index="/login" class="login-user">
-<!--              @click="loginClick('/login')"-->
-              <a  class="el-icon-user-solid"></a>
+            <el-menu-item v-if="flag" index="/userinfo" class="login-user">
+              <!--              @click="loginClick('/userinfo')"-->
+              <!--              <a class="el-icon-user-solid"></a>-->
+              <el-dropdown placement="bottom-start" @command="handleCommand" style="font-size: 12px !important;">
+                <span class="el-dropdown-link">
+                  <div class="demo-basic--circle">
+                    <div class="block">
+                      <el-avatar :size="40" src="~assets/img/header.jpg" style="background-size: 100%"></el-avatar>
+                      <h3 style="color: white;font-family:'仿宋';float: right">小林子@呀呀</h3>
+                    </div>
+                  </div>
+                </span>
+                <el-dropdown-menu slot="dropdown" class="el-dropdown-item">
+                  <el-dropdown-item command="a">我的主页</el-dropdown-item>
+                  <el-dropdown-item command="b">退出</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </el-menu-item>
+            <el-menu-item v-else index="/login" class="login-user">
+              <!--              @click="loginClick('/userinfo')"-->
+              <div class="demo-basic--circle">
+                <div class="block">
+                  <el-avatar :size="40" :src="circleUrl"></el-avatar>
+                </div>
+              </div>
             </el-menu-item>
           </el-menu>
         </div>
@@ -43,6 +65,7 @@
     components: {},
     data() {
       return {
+        flag: true,
         activeIndex: '/home',
         inputSearch: '',
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
@@ -52,9 +75,18 @@
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
-      // loginClick(path){
-      //   this.$router.replace(path)
-      // }
+      loginClick(path) {
+        this.$router.replace(path)
+      },
+      handleCommand(command) {
+        // this.$message('click on item ' + command);
+        if (command === 'b') {
+          this.flag = false;
+          this.$router.replace('/home')
+        } else {
+          this.$router.replace('/userinfo')
+        }
+      }
     }
   }
 </script>
@@ -73,8 +105,9 @@
 
   .header-top {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: auto;
+    padding-left: 20px;
   }
 
   .header-logo {
@@ -82,6 +115,7 @@
     font-size: 30px;
     color: #fff;
     float: left;
+    padding-left: 70px;
   }
 
   .header-nav::after, .header-nav::before {
@@ -105,7 +139,7 @@
     width: 200px;
     float: left;
     line-height: 60px;
-    margin: 0 20px 0 280px;
+    margin: 0 20px 0 310px;
   }
 
   .login-user {

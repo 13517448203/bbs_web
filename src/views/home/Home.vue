@@ -67,14 +67,14 @@
   }
 
   .tabs-content {
-    max-width: 1000px;
+    max-width: 1050px;
     margin: auto;
   }
 
   .write_click{
     position: absolute;
     top: 60px;
-    left: 1250px;
+    left: 950px;
     line-height: 55px;
   }
 

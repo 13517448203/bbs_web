@@ -1,62 +1,93 @@
 <template>
-    <section class="signin signup">
-      <div class="container-fluid">
-        <div class="row">
-            <div class="single-sign">
-              <div class="sign-content">
-                <h2>sign in</h2>
-                <div class="signin-form">
-                  <form action="">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <div class="form-group">
-                          <label for="signin_form">Account</label>
-                          <input type="text" class="form-control" id="signin_form"
-                                 placeholder="Enter your Account here">
-                        </div><!--/.form-group -->
-                      </div><!--/.col -->
-                      <div class="col-sm-12">
-                        <div class="form-group">
-                          <label for="signin_form1">password</label>
-                          <input type="password" class="form-control" id="signin_form1" placeholder="Password">
-                        </div><!--/.form-group -->
-                      </div><!--/.col -->
-                    </div>
-                  </form><!--/form -->
-                </div><!--/.signin-form -->
-                <div class="signin-password">
-                  <div class="awesome-checkbox-list">
-                    <ul class="unstyled centered">
-                      <li>
-                        <input class="styled-checkbox" id="styled-checkbox-2" type="checkbox" value="value2">
-                        <label for="styled-checkbox-2">Keep me Signed in</label>
-                      </li>
-                      <li>
-                        <a href="#">Forgot Account or password ?</a>
-                      </li>
-                    </ul>
-                  </div><!--/.awesome-checkbox-list -->
-                </div><!--/.signin-password -->
-                <div class="signin-footer">
-                  <button type="button" class="btn signin_btn" data-toggle="modal" data-target=".signin_modal">
-                    sign in
-                  </button>
-                  <p>
-                    Don’t have an Account ?
-                    <a @click="registerClick('/register')">register</a>
-                  </p>
-                </div><!--/.signin-footer -->
-              </div><!--/.sign-content -->
-            </div>
-          </div>
+  <section class="signin signup">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="single-sign">
+          <div class="sign-content">
+            <h2>sign in</h2>
+            <div class="signin-form">
+              <form>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="signin_form">Account</label>
+                      <input type="text" class="form-control" id="signin_form" v-model="loginForm.username"
+                             placeholder="Enter your Account here">
+                    </div><!--/.form-group -->
+                  </div><!--/.col -->
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="signin_form1">password</label>
+                      <input type="password" class="form-control" id="signin_form1" v-model="loginForm.password"
+                             placeholder="Password">
+                    </div><!--/.form-group -->
+                  </div><!--/.col -->
+                </div>
+              </form><!--/form -->
+            </div><!--/.signin-form -->
+            <div class="signin-password">
+              <div class="awesome-checkbox-list">
+                <ul class="unstyled centered">
+                  <li>
+                    <input class="styled-checkbox" id="styled-checkbox-2" type="checkbox" value="value2">
+                    <label for="styled-checkbox-2">Keep me Signed in</label>
+                  </li>
+                  <li>
+                    <a href="#">Forgot Account or password ?</a>
+                  </li>
+                </ul>
+              </div><!--/.awesome-checkbox-list -->
+            </div><!--/.signin-password -->
+            <div class="signin-footer">
+              <button type="button" class="btn signin_btn" @click="login">
+                sign in
+              </button>
+              <p>
+                Don’t have an Account ?
+                <a @click="registerClick('/register')">register</a>
+              </p>
+            </div><!--/.signin-footer -->
+          </div><!--/.sign-content -->
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 </template>
 
 <script>
+  import { mapMutations } from 'vuex';
+
   export default {
     name: "Login",
+    data() {
+      return {
+        loginForm: {
+          username: '',
+          password: ''
+        },
+        userToken: ''
+      };
+    },
     methods: {
+      ...mapMutations(['changeLogin']),
+      login() {
+        let _this = this;
+        if (this.loginForm.username === '' || this.loginForm.password === '') {
+          alert('账号或密码不能为空');
+        } else {
+          // this.axios({method: 'post', url: '/user/login', data: _this.loginForm}).then(res => {
+          //   console.log(res.data);
+          //   _this.userToken = 'Bearer ' + res.data.data.body.token;
+          //  将用户token保存到vuex中
+          //   _this.changeLogin({Authorization: _this.userToken});
+          //   _this.$router.push('/home');
+          //   alert('登陆成功');
+          // }).catch(error => {
+          //   alert('账号或密码错误');
+          //   console.log(error);
+          // });
+        }
+      },
       registerClick(path) {
         this.$router.replace(path)
       }
