@@ -3,21 +3,28 @@
     <div class="main-left">
       <!-- 帖子-->
       <div class="article">
-
+        <post-category/>
       </div>
     </div>
     <div class="main-right">
       <!-- 本周热议 -->
       <div class="weeks-heated">
-
+        <weeks-hot/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import PostCategory from './PostCategory'
+  import WeeksHot from './WeeksHot'
+
   export default {
-    name: "Questions"
+    name: "Questions",
+    components:{
+      PostCategory,
+      WeeksHot
+    }
   }
 </script>
 
@@ -50,7 +57,7 @@
   }
 
   .weeks-heated {
-    height: 400px;
+    height: 460px;
   }
 
   .article{

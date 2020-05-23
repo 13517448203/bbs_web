@@ -34,10 +34,18 @@
             <el-tab-pane><span slot="label"><i class="el-icon-document"></i> 我的帖子</span>
               <my-post/>
             </el-tab-pane>
-            <el-tab-pane><span slot="label"><i class="el-icon-chat-dot-round"></i> 我的消息</span></el-tab-pane>
-            <el-tab-pane><span slot="label"><i class="el-icon-star-on"></i> 我的收藏</span></el-tab-pane>
-            <el-tab-pane><span slot="label"><i class="el-icon-view"></i> 我的关注</span></el-tab-pane>
-            <el-tab-pane><span slot="label"><i class="el-icon-s-custom"></i> 我的粉丝</span></el-tab-pane>
+            <el-tab-pane><span slot="label"><i class="el-icon-chat-dot-round"></i> 我的消息</span>
+              <my-message/>
+            </el-tab-pane>
+            <el-tab-pane><span slot="label"><i class="el-icon-star-on"></i> 我的收藏</span>
+              <my-save/>
+            </el-tab-pane>
+            <el-tab-pane><span slot="label"><i class="el-icon-view"></i> 我的关注</span>
+              <my-focus/>
+            </el-tab-pane>
+            <el-tab-pane><span slot="label"><i class="el-icon-s-custom"></i> 我的粉丝</span>
+              <my-fans/>
+            </el-tab-pane>
           </el-tabs>
         </div>
       </div>
@@ -47,11 +55,19 @@
 
 <script>
   import MyPost from './childs/MyPost'
+  import MyMessage from './childs/MyMessage'
+  import MyFocus from './childs/MyFocus'
+  import MySave from './childs/MySave'
+  import MyFans from './childs/MyFans'
 
   export default {
     name: "UserInfo",
-    components:{
-      MyPost
+    components: {
+      MyPost,
+      MyMessage,
+      MyFocus,
+      MySave,
+      MyFans
     },
     data() {
       return {

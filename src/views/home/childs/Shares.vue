@@ -3,27 +3,32 @@
     <div class="main-left">
       <!-- 帖子-->
       <div class="article">
-
+        <post-category/>
       </div>
     </div>
     <div class="main-right">
       <!-- 本周热议 -->
       <div class="weeks-heated">
-
+        <weeks-hot/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import PostCategory from './PostCategory'
+  import WeeksHot from './WeeksHot'
+
   export default {
-    name: "Shares"
+    name: "Shares",
+    components:{
+      PostCategory,
+      WeeksHot
+    }
   }
 </script>
 
 <style scoped>
-
-
   .main-content::after, .main-content::before {
     content: "";
     display: block;
@@ -42,7 +47,7 @@
     float: left;
   }
 
-  .weeks-heated,.article{
+  .weeks-heated, .article {
     border-radius: 2px;
     background-color: #fff;
     margin-bottom: 15px;
@@ -50,10 +55,10 @@
   }
 
   .weeks-heated {
-    height: 400px;
+    height: 460px;
   }
 
-  .article{
+  .article {
     height: 750px;
   }
 </style>

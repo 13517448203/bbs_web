@@ -15,11 +15,11 @@
       </div>
       <!-- 置顶 -->
       <div class="is-top">
-
+        <home-top/>
       </div>
       <!-- 帖子-->
       <div class="article">
-
+        <post-category/>
       </div>
     </div>
     <div class="main-right">
@@ -27,17 +27,30 @@
       <div class="signIn-content">
 
       </div>
-      <!-- 公告-->
+      <!-- 公告 -->
       <div class="notice">
 
+      </div>
+      <!-- 本周热议 -->
+      <div class="weeks-hot">
+        <weeks-hot/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import HomeTop from './HomeTop'
+  import PostCategory from './PostCategory'
+  import WeeksHot from './WeeksHot'
+
   export default {
     name: "Homepage",
+    components: {
+      HomeTop,
+      PostCategory,
+      WeeksHot
+    },
     data() {
       return {
         imagesbox: [
@@ -71,7 +84,7 @@
     float: left;
   }
 
-  .swiper-content, .signIn-content, .is-top, .article, .notice {
+  .swiper-content, .signIn-content, .is-top, .article, .notice,.weeks-hot{
     border-radius: 2px;
     background-color: #fff;
     margin-bottom: 15px;
@@ -112,5 +125,9 @@
 
   .notice {
     height: 350px;
+  }
+
+  .weeks-hot{
+    height: 460px;
   }
 </style>
