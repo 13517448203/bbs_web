@@ -4,12 +4,12 @@
       <div class="user-base-info">
         <div class="user-base-info-main">
           <div class="user-info-header-img">
-            <img src="@/assets/img/header.jpg" alt="" style="width:150px;height:150px;border-radius: 50%;margin:auto">
+            <img :src="personInfo.userHead" alt="" style="width:150px;height:150px;border-radius: 50%;margin:auto">
           </div>
           <div class="user-info-right">
             <div class="user-info-name">
               <div style="float: left;">
-                <h2 id="user_name">林子大呀</h2>
+                <h2 id="user_name">{{personInfo.userName}}</h2>
                 <p class="person-profile">这是一个简介~~~~~~~</p>
               </div>
               <div class="user-info-edit">
@@ -21,9 +21,25 @@
             </div>
             <div class="user-info-other">
               <ul>
-                <li v-for="item in itemData">
-                  <p>{{item.name}}</p>
-                  <span>{{item.data}}</span>
+<!--                <li v-for="item in itemData">-->
+<!--                  <p>{{item.name}}</p>-->
+<!--                  <span>{{item.data}}</span>-->
+<!--                </li>-->
+                <li>
+                  <p>粉丝</p>
+                  <span>{{fans}}</span>
+                </li>
+                <li>
+                  <p>关注</p>
+                  <span>{{friendsNum}}</span>
+                </li>
+                <li>
+                  <p>帖子</p>
+                  <span>{{forumNum}}</span>
+                </li>
+                <li>
+                  <p>获赞</p>
+                  <span>{{userLike}}</span>
                 </li>
               </ul>
             </div>
@@ -32,6 +48,7 @@
         <div class="user-base-info-bottom">
           <el-tabs type="border-card">
             <el-tab-pane><span slot="label"><i class="el-icon-document"></i> 我的帖子</span>
+              <!--              :userInfoData="personInfo.userInfoData"-->
               <my-post/>
             </el-tab-pane>
             <el-tab-pane><span slot="label"><i class="el-icon-chat-dot-round"></i> 我的消息</span>
@@ -59,6 +76,7 @@
   import MyFocus from './childs/MyFocus'
   import MySave from './childs/MySave'
   import MyFans from './childs/MyFans'
+  import {getUserinfodata, getUserdata} from '@/network/userInfo'
 
   export default {
     name: "UserInfo",
@@ -72,17 +90,61 @@
     data() {
       return {
         activeName: 'first',
-        itemData: [
-          {name: '粉丝', data: '12'},
-          {name: '关注', data: '12'},
-          {name: '帖子', data: '12'},
-          {name: '获赞', data: '12'},
-        ]
+        fans:'',
+        friendsNum:'',
+        forumNum:'',
+        userLike:'',
+        personInfo: {
+          userName: '林子大-',
+          userHead: require('@/assets/img/header.jpg'),
+          userInfoData: [],
+        },
+        // itemData: [
+        //   {name: '粉丝', data: this.fans},
+        //   {name: '关注', data: this.friendsNum},
+        //   {name: '帖子', data: this.forumNum},
+        //   {name: '获赞', data: this.userLike},
+        // ]
       }
+    },
+    created() {
+      // 头像和用户名的数据导入
+      if (localStorage.getItem('userName') !== null && localStorage.getItem('userName') !== undefined) {
+        this.personInfo.userName = localStorage.getItem('userName')
+      }
+      if (localStorage.getItem('userHead') !== null && localStorage.getItem('userHead') !== undefined) {
+        this.personInfo.userHead = localStorage.getItem('userHead')
+      }
+      console.log('userinfo.....' + this.personInfo.userHead);
+
+      // 请求个人信息的粉丝数  我的帖子 等数据
+      this.getUserinfodata()
+
+      // 请求个人信息数据
+      this.getUserdata()
     },
     methods: {
       editClick(path) {
         this.$router.push(path)
+      },
+      /**
+       * 网络请求相关
+       */
+      getUserinfodata() {
+        getUserinfodata(localStorage.getItem('userName')).then(res => {
+          // console.log(res);
+          this.personInfo.userInfoData = res.data.listForumInfo;
+          console.log("userinfo...." + this.personInfo.userInfoData);
+        })
+      },
+      getUserdata() {
+        getUserdata(localStorage.getItem('userName')).then(res => {
+          // console.log(res);
+          this.fans = res.data.fen;
+          this.friendsNum = res.data.friendsNum;
+          this.forumNum = res.data.forumNum;
+          this.userLike = res.data.userLike;
+        })
       }
     }
   }

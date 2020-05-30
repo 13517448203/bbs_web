@@ -9,6 +9,7 @@ const Register = () => import('../views/home/Register')
 const UserInfo = () => import('../views/userinfo/UserInfo')
 const EditInfo = () => import('../views/userinfo/childs/EditInfo')
 const PostDetail = () => import('../components/content/postdetail/PostDetail')
+const WritePost = () => import('../components/common/writepost/WritePost')
 
 // 1、安装插件
 Vue.use(VueRouter)
@@ -36,6 +37,10 @@ const routes = [
   {
     path:'/userinfo',
     component:UserInfo
+  },
+  {
+    path:'/writepost',
+    component:WritePost
   },
   {
     path:'/postdetail',

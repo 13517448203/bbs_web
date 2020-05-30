@@ -20,7 +20,7 @@
       </el-tabs>
     </div>
     <div class="write_click">
-      <button  type="button" class="btn write_btn ">
+      <button  type="button" class="btn write_btn " @click="writeClick()">
         <i class="el-icon-edit-outline"></i>
         写帖子
       </button>
@@ -51,6 +51,14 @@
     },
     created() {
       console.log("home");
+    },
+    methods:{
+      writeClick(){
+        this.$router.push('/writepost')
+      },
+      handleClick(tab, event) {
+        console.log(tab, event);
+      }
     }
   }
 </script>

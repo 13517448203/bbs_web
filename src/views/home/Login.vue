@@ -6,19 +6,19 @@
           <div class="sign-content">
             <h2>sign in</h2>
             <div class="signin-form">
-              <form>
+              <form ref="loginForm" v-model="loginForm">
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="signin_form">Account</label>
-                      <input type="text" class="form-control" id="signin_form" v-model="loginForm.username"
+                      <input type="text" class="form-control" id="signin_form" v-model="loginForm.userName"
                              placeholder="Enter your Account here">
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="signin_form1">password</label>
-                      <input type="password" class="form-control" id="signin_form1" v-model="loginForm.password"
+                      <input type="password" class="form-control" id="signin_form1" v-model="loginForm.userPwd"
                              placeholder="Password">
                     </div><!--/.form-group -->
                   </div><!--/.col -->
@@ -39,7 +39,8 @@
               </div><!--/.awesome-checkbox-list -->
             </div><!--/.signin-password -->
             <div class="signin-footer">
-              <button type="button" class="btn signin_btn" @click="login">
+<!--              <button type="button" class="btn signin_btn" @click="login()">-->
+                              <button type="button" class="btn signin_btn" @click="logintest()">
                 sign in
               </button>
               <p>
@@ -55,41 +56,49 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex';
+
+  import {getUserLogin} from '@/network/userInfo'
 
   export default {
     name: "Login",
     data() {
       return {
         loginForm: {
-          username: '',
-          password: ''
-        },
-        userToken: ''
+          userName: '',
+          userPwd: ''
+        }
       };
     },
     methods: {
-      ...mapMutations(['changeLogin']),
       login() {
-        let _this = this;
-        if (this.loginForm.username === '' || this.loginForm.password === '') {
-          alert('账号或密码不能为空');
-        } else {
-          // this.axios({method: 'post', url: '/user/login', data: _this.loginForm}).then(res => {
-          //   console.log(res.data);
-          //   _this.userToken = 'Bearer ' + res.data.data.body.token;
-          //  将用户token保存到vuex中
-          //   _this.changeLogin({Authorization: _this.userToken});
-          //   _this.$router.push('/home');
-          //   alert('登陆成功');
-          // }).catch(error => {
-          //   alert('账号或密码错误');
-          //   console.log(error);
-          // });
-        }
+        console.log(this.loginForm);
+        getUserLogin(this.loginForm).then(resp => {
+          console.log('login...'+resp);
+          if (resp.data.status === 1) {
+              this.$message({
+              message: '用户或密码不正确！',
+              type: 'error'
+            });
+          } else {
+            this.$message({
+              message: '登录成功！',
+              type: 'success'
+            });
+            this.$addStorageEvent("userName", resp.data.userName);
+            localStorage.setItem("userHead", resp.data.userImg);
+            localStorage.setItem('flag', 'true');
+            this.$router.replace('/userinfo');
+          }
+        })
       },
       registerClick(path) {
-        this.$router.replace(path)
+        this.$router.replace(path);
+      },
+      logintest() {
+        this.$addStorageEvent("userName", "123123");
+        localStorage.setItem("userHead", '../../static/img/header.jpg');
+        localStorage.setItem('flag', 'true');
+        this.$router.replace('/userinfo');
       }
     }
   }

@@ -32,8 +32,8 @@
                 <span class="el-dropdown-link">
                   <div class="demo-basic--circle">
                     <div class="block">
-                      <el-avatar :size="40" src="~assets/img/header.jpg" style="background-size: 100%"></el-avatar>
-                      <h3 style="color: white;font-family:'仿宋';float: right">小林子@呀呀</h3>
+                      <el-avatar :size="40" :src="userHead" style="background-size: 100%"></el-avatar>
+                      <h3 style="color: white;font-family:'仿宋';float: right;">{{userName}}</h3>
                     </div>
                   </div>
                 </span>
@@ -44,7 +44,6 @@
               </el-dropdown>
             </el-menu-item>
             <el-menu-item v-else index="/login" class="login-user">
-              <!--              @click="loginClick('/userinfo')"-->
               <div class="demo-basic--circle">
                 <div class="block">
                   <el-avatar :size="40" :src="circleUrl"></el-avatar>
@@ -65,11 +64,20 @@
     components: {},
     data() {
       return {
-        flag: true,
+        flag: false,
+        timer: '',
+        userName: '',
         activeIndex: '/home',
         inputSearch: '',
+        userHead: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
       }
+    },
+    mounted() {
+      this.getlocal()
+      window.addEventListener('setItem', (e) => {
+        this.getlocal()
+      });
     },
     methods: {
       handleSelect(key, keyPath) {
@@ -79,13 +87,26 @@
         this.$router.replace(path)
       },
       handleCommand(command) {
-        // this.$message('click on item ' + command);
         if (command === 'b') {
           this.flag = false;
+          localStorage.clear();
+          console.log('clear本地');
           this.$router.replace('/home')
         } else {
           this.$router.replace('/userinfo')
         }
+      },
+      getlocal(){
+        if (localStorage.getItem('userName') !== null && localStorage.getItem('userName') !== undefined) {
+          this.userName = localStorage.getItem('userName')
+        }
+        if (localStorage.getItem('flag') !== null && localStorage.getItem('flag') !== undefined) {
+          this.flag = localStorage.getItem('flag')
+        }
+        if (localStorage.getItem('userHead') !== null && localStorage.getItem('userHead') !== undefined) {
+          this.userHead = localStorage.getItem('userHead')
+        }
+        console.log('maintabbar...' + this.flag, this.userName, this.userHead);
       }
     }
   }

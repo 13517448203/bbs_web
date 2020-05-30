@@ -1,17 +1,17 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import  Vuex from 'vuex'
 
-Vue.use(Vuex);
+// 1.安装插件
+Vue.use(Vuex)
+
+// 2.创建对象
 const store = new Vuex.Store({
-  // 存储token
-  state: {Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''},
-  mutations: {
-    // 修改token，并将token存入localStorage
-    changeLogin(state, user) {
-      state.Authorization = user.Authorization;
-      localStorage.setItem('Authorization', user.Authorization);
-    }
+  state:{
+    userName:'',
+    userHead:'',
+    flag : false
   }
-});
+})
 
-export default store;
+// 3.导出
+export default store

@@ -12,7 +12,8 @@
         </el-tab-pane>
         <el-tab-pane>
           <span slot="label"><i class="el-icon-picture-outline-round"></i> 头像</span>
-          头像
+          <edit-header/>
+
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -22,12 +23,14 @@
 <script>
   import PersonInfo from '../childs/PersonInfo'
   import EditPwd from '../childs/EditPwd'
+  import EditHeader from '../childs/EditHeader'
 
   export default {
     name: "EditInfo",
     components: {
       PersonInfo,
-      EditPwd
+      EditPwd,
+      EditHeader
     },
     data() {
       return {

@@ -6,58 +6,58 @@
           <div class="sign-content">
             <h2>sign up</h2>
             <div class="signin-form">
-              <form action="">
+              <form action="" v-model="RegisterForm">
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="username">UserName</label>
-                      <input type="text" class="form-control" id="username" v-model="RegisterForm.username"
-                             placeholder="username">
+                      <input type="text" class="form-control" id="username" v-model="RegisterForm.userName"
+                             placeholder="username"><span class="tian">*(为必填)</span>
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="password">Password</label>
-                      <input type="password" class="form-control" id="password" v-model="RegisterForm.password"
-                             placeholder="Password">
+                      <input type="password" class="form-control" id="password" v-model="RegisterForm.userPwd"
+                             placeholder="Password"><span class="tian">*(为必填)</span>
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-group ">
                       <label for="rePassword">rePassword</label>
-                      <input type="text" class="form-control" id="rePassword" v-model="RegisterForm.rePassword"
+                      <input type="password" class="form-control" id="rePassword" v-model="RegisterForm.rePassword"
                              placeholder="rePassword">
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" v-model="RegisterForm.email"
+                      <input type="email" class="form-control" id="email" v-model="RegisterForm.userMail"
                              placeholder="info@abc.com">
                     </div><!--/.form-group -->
                   </div><!--/.col -->
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label for="telephone">Tel</label>
-                      <input type="text" class="form-control" id="telephone" v-model="RegisterForm.telephone"
-                             placeholder="Tel">
+                      <input type="text" class="form-control" id="telephone" v-model="RegisterForm.userPhone"
+                             placeholder="Tel"><span class="tian">*(为必填)</span>
                     </div><!--/.form-group -->
                   </div><!--/.col -->
-                  <div class="col-sm-12">
-                    <div class="form-col">
-                      <div class="form-group">
-                        <label for="code">code</label>
-                        <input type="text" class="form-control" id="code" v-model="RegisterForm.code"
-                               placeholder="code">
-                      </div><!--/.form-group -->
-                    </div><!--/.col -->
-                    <div class="form-col1">
-                      <div class="form-group">
-                        <button type="button" class="btn code_btn" @click="register">
-                          获取验证码
-                        </button>
-                      </div><!--/.form-group -->
-                    </div><!--/.col --></div><!--/.col -->
+                  <!--                  <div class="col-sm-12">-->
+                  <!--                    <div class="form-col">-->
+                  <!--                      <div class="form-group">-->
+                  <!--                        <label for="code">code</label>-->
+                  <!--                        <input type="text" class="form-control" id="code" v-model="RegisterForm.code"-->
+                  <!--                               placeholder="code">-->
+                  <!--                      </div>&lt;!&ndash;/.form-group &ndash;&gt;-->
+                  <!--                    </div>&lt;!&ndash;/.col &ndash;&gt;-->
+                  <!--                    <div class="form-col1">-->
+                  <!--                      <div class="form-group">-->
+                  <!--                        <button type="button" class="btn code_btn" @click="register">-->
+                  <!--                          获取验证码-->
+                  <!--                        </button>-->
+                  <!--                      </div>&lt;!&ndash;/.form-group &ndash;&gt;-->
+                  <!--                    </div>&lt;!&ndash;/.col &ndash;&gt;</div>&lt;!&ndash;/.col &ndash;&gt;-->
                 </div>
               </form>
             </div><!--/.signin-form -->
@@ -69,7 +69,6 @@
                 Already a Member ? <a @click="loginClick('/login')">login</a>
               </p>
             </div><!--/.signin-footer -->
-
           </div><!--/.sign-content -->
         </div>
       </div>
@@ -78,29 +77,89 @@
 </template>
 
 <script>
+  import {getUserRegister} from '@/network/userInfo'
+
   export default {
     name: "Register",
     data() {
       return {
         RegisterForm: {
-          username: '',
-          password: '',
+          userName: '',
+          userPwd: '',
           rePassword: '',
-          email: '',
-          telephone: '',
-          code: ''
+          userMail: '',
+          userPhone: ''
         }
       }
     },
     methods: {
       register() {
-        let _this = this;
-        if (this.RegisterForm.username === '' || this.RegisterForm.password === ''
-          || this.RegisterForm.email === '' || this.RegisterForm.telephone === ''
-          || this.RegisterForm.code === '') {
-          alert('注册字段不能为空！');
+        if (this.RegisterForm.userName === '' || this.RegisterForm.userPwd === ''
+          || this.RegisterForm.userPhone === '') {
+          this.$message({
+            message: '必填字段不能为空！',
+            type: 'error'
+          });
+          return false;
+        } else if (!(/^[a-zA-z0-9]\w{5,14}$/.test(this.RegisterForm.userName))) {
+          this.$message({
+            message: '请输入6-15位账号(支持大写、小写字母和数字)！',
+            type: 'error'
+          });
+          return false;
+        } else if (!(/^[a-zA-z0-9]\w{5,14}$/.test(this.RegisterForm.userPwd))) {
+          this.$message({
+            message: '请输入6-15位密码(支持大写、小写字母和数字)！',
+            type: 'error'
+          });
+          return false;
+        } else if (this.RegisterForm.userPwd !== this.RegisterForm.rePassword) {
+          this.$message({
+            message: '两次密码不一致！',
+            type: 'error'
+          });
+          return false;
+        } else if (this.RegisterForm.userMail !== null
+          && !(/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/.test(this.RegisterForm.userMail))) {
+          this.$message({
+            message: '请输入正确的邮箱！',
+            type: 'error'
+          });
+          return false;
+        } else if (!(/^1\d{10}$/.test(this.RegisterForm.userPhone))) {
+          this.flag = 0;
+          this.$message({
+            message: '请输入正确的手机号码！',
+            type: 'error'
+          });
+          return false;
         } else {
-
+          console.log(this.RegisterForm)
+          getUserRegister(this.RegisterForm).then(resp => {
+            console.log(resp.data);
+            if (resp.data === 2) {
+              this.$message({
+                message: '注册失败，用户名重复！',
+                type: 'error'
+              });
+            } else if (resp.data === 3) {
+              this.$message({
+                message: '注册失败，手机号码重复！',
+                type: 'error'
+              });
+            } else if (resp.data === 4) {
+              this.$message({
+                message: '注册失败，手机号码及用户名重复！',
+                type: 'error'
+              });
+            } else if (resp.data === 1) {
+              this.$message({
+                message: '恭喜你，注册成功！',
+                type: 'success'
+              });
+              this.loginClick('/login')
+            }
+          })
         }
       },
       loginClick(path) {
@@ -366,4 +425,11 @@
     margin: 0 auto;
   }
 
+  .tian {
+    color: red;
+    float: right;
+    font-size: 12px;
+    margin-right: -100px;
+    margin-top: -30px;
+  }
 </style>
