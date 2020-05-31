@@ -65,10 +65,11 @@
       this.getUserinfodata()
     },
     methods: {
-      postDetail(data) {
+      postDetail(id) {
         //  data:帖子id
-        console.log(data);
-        this.$router.push('/postDetail')
+        console.log(id);
+        // 2.跳转到详情页面
+        this.$router.push({path: '/postDetail', query: {id}})
       },
       /**
        * 网络请求相关

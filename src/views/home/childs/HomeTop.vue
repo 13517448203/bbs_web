@@ -3,22 +3,32 @@
     <div class="home-top-title">
       <a>置顶</a>
       <ul class="home-top-list">
-        <li class="ul-list-li" v-for="item in 4">
+        <li class="ul-list-li" v-for="(item,index) in homeTopData" @click="postClick(index,item)">
+          <!--        <li class="ul-list-li" v-for="item in 4">-->
           <div class="demo-basic--circle title-avatar">
             <div class="block">
-              <el-avatar shape="square" :size="40" :src="squareUrl"></el-avatar>
+              <el-avatar shape="square" :size="40" :src="item.user.userImg"></el-avatar>
+              <!--              <el-avatar shape="square" :size="40" :src="squareUrl"></el-avatar>-->
             </div>
           </div>
           <h2>
-            <a class="li-tab">分享</a>
-            <a> aop 实现 layui table edit 新增功能</a>
+            <a class="li-tab">{{item.forumTypeId | showPostStatus}}</a>
+            <a>{{item.forumTitle}}</a>
+            <!--            <a> aop 实现 layui table edit 新增功能</a>-->
           </h2>
           <div class="li-info">
-            <a><cite>单身狗278</cite></a>
-            <span>7天前</span>
+            <a><cite>{{item.user.userName}}</cite></a>
+            <!--            <a><cite>单身狗278</cite></a>-->
+            <span>{{item.forumTime}}</span>
+            <!--            <span>7天前</span>-->
             <span class="li-list-nums">
-              <i title="回答" class="icon-pinglun1 iconfont el-icon-chat-dot-square"> 36</i>
-            </span>
+                    <i title="获赞" class="icon-pinglun1 iconfont el-icon-thumb"> {{item.forumLike}}</i>
+              <!--                    <i title="回答" class="icon-pinglun1 iconfont el-icon-thumb"> 36</i>-->
+                    <i title="浏览" class="icon-pinglun1 iconfont el-icon-view"> {{item.forumClick}}</i>
+              <!--                    <i title="回答" class="icon-pinglun1 iconfont el-icon-view"> 36</i>-->
+                    <i title="回答" class="icon-pinglun1 iconfont el-icon-chat-dot-square"> {{item.commentNum}}</i>
+              <!--                    <i title="回答" class="icon-pinglun1 iconfont el-icon-chat-dot-square"> 36</i>-->
+                  </span>
           </div>
           <div class="li-list-badge">
             <span class="span-badge">精贴</span>
@@ -30,11 +40,39 @@
 </template>
 
 <script>
+  import {getHomeTopData} from '@/network/home'
+  import {formatPostStatus} from '@/common/post'
+
   export default {
     name: "HomeTop",
     data() {
       return {
+        homeTopData: [],
         squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
+      }
+    },
+    created() {
+      // 请求帖子数据
+      this.getHomeTopData()
+    },
+    filters: {
+      showPostStatus: function (value) {
+        return formatPostStatus(value)
+      }
+    } ,
+    methods: {
+      postClick(index, item) {
+        console.log('hometop', index);
+      }
+      ,
+      /**
+       *  网络请求相关
+       */
+      getHomeTopData() {
+        getHomeTopData().then(res => {
+          console.log(res.data);
+          this.homeTopData = res.data;
+        })
       }
     }
   }

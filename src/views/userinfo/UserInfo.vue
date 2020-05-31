@@ -21,10 +21,10 @@
             </div>
             <div class="user-info-other">
               <ul>
-<!--                <li v-for="item in itemData">-->
-<!--                  <p>{{item.name}}</p>-->
-<!--                  <span>{{item.data}}</span>-->
-<!--                </li>-->
+                <!--                <li v-for="item in itemData">-->
+                <!--                  <p>{{item.name}}</p>-->
+                <!--                  <span>{{item.data}}</span>-->
+                <!--                </li>-->
                 <li>
                   <p>粉丝</p>
                   <span>{{fans}}</span>
@@ -48,7 +48,6 @@
         <div class="user-base-info-bottom">
           <el-tabs type="border-card">
             <el-tab-pane><span slot="label"><i class="el-icon-document"></i> 我的帖子</span>
-              <!--              :userInfoData="personInfo.userInfoData"-->
               <my-post/>
             </el-tab-pane>
             <el-tab-pane><span slot="label"><i class="el-icon-chat-dot-round"></i> 我的消息</span>
@@ -90,10 +89,10 @@
     data() {
       return {
         activeName: 'first',
-        fans:'',
-        friendsNum:'',
-        forumNum:'',
-        userLike:'',
+        fans: '',
+        friendsNum: '',
+        forumNum: '',
+        userLike: '',
         personInfo: {
           userName: '林子大-',
           userHead: require('@/assets/img/header.jpg'),

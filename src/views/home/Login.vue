@@ -95,7 +95,7 @@
         this.$router.replace(path);
       },
       logintest() {
-        this.$addStorageEvent("userName", "123123");
+        this.$addStorageEvent("userName", "123123")
         localStorage.setItem("userHead", '../../static/img/header.jpg');
         localStorage.setItem('flag', 'true');
         this.$router.replace('/userinfo');

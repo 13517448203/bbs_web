@@ -25,11 +25,9 @@
     <div class="main-right">
       <!-- 签到 -->
       <div class="signIn-content">
-
       </div>
       <!-- 公告 -->
       <div class="notice">
-
       </div>
       <!-- 本周热议 -->
       <div class="weeks-hot">
@@ -59,6 +57,9 @@
           {id: 2, idView: require("@/assets/img/03.jpg")},
           {id: 3, idView: require("@/assets/img/04.jpg")}]
       }
+    },
+    created() {
+      localStorage.setItem('id', '')
     }
   }
 </script>
@@ -84,7 +85,7 @@
     float: left;
   }
 
-  .swiper-content, .signIn-content, .is-top, .article, .notice,.weeks-hot{
+  .swiper-content, .signIn-content, .is-top, .article, .notice, .weeks-hot {
     border-radius: 2px;
     background-color: #fff;
     margin-bottom: 15px;
@@ -127,7 +128,7 @@
     height: 350px;
   }
 
-  .weeks-hot{
+  .weeks-hot {
     height: 460px;
   }
 </style>

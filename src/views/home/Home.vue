@@ -18,9 +18,10 @@
           <suggest/>
         </el-tab-pane>
       </el-tabs>
+
     </div>
     <div class="write_click">
-      <button  type="button" class="btn write_btn " @click="writeClick()">
+      <button type="button" class="btn write_btn " @click="writeClick()">
         <i class="el-icon-edit-outline"></i>
         写帖子
       </button>
@@ -37,7 +38,7 @@
 
   export default {
     name: "Home",
-    components:{
+    components: {
       Homepage,
       Questions,
       Shares,
@@ -52,8 +53,8 @@
     created() {
       console.log("home");
     },
-    methods:{
-      writeClick(){
+    methods: {
+      writeClick() {
         this.$router.push('/writepost')
       },
       handleClick(tab, event) {
@@ -79,7 +80,7 @@
     margin: auto;
   }
 
-  .write_click{
+  .write_click {
     position: absolute;
     top: 60px;
     left: 950px;

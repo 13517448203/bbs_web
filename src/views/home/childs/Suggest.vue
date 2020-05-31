@@ -24,6 +24,9 @@
     components:{
       PostCategory,
       WeeksHot
+    },
+    created() {
+      localStorage.setItem('id','4')
     }
   }
 </script>

@@ -1,19 +1,43 @@
 <template>
   <dl class="hot-list-one">
     <dt class="hot-list-title">本周热议</dt>
-    <dd v-for="item in 15">
-      <a>layuiadmin tab选项卡如何在文字前面加图标</a>
+    <dd v-for="item in homeWeeksHotData">
+      <a>{{item.forumTitle}}</a>
+<!--      <a>layuiadmin tab选项卡如何在文字前面加图标</a>-->
       <span>
         <i class="icon-pinglun1 iconfont el-icon-chat-dot-square"></i>
-        26
+<!--        26-->
+        {{item.commentNum}}
       </span>
     </dd>
   </dl>
 </template>
 
 <script>
+  import {getHomeWeeksHotData} from '@/network/home'
+
   export default {
-    name: "WeeksHot"
+    name: "WeeksHot",
+    data() {
+      return {
+        homeWeeksHotData: []
+      }
+    },
+    created() {
+      // 请求帖子数据
+      this.getHomeWeeksHotData()
+    },
+    methods: {
+      /**
+       *  网络请求相关
+       */
+      getHomeWeeksHotData() {
+        getHomeWeeksHotData().then(res => {
+          console.log(res.data);
+          this.homeWeeksHotData = res.data;
+        })
+      }
+    }
   }
 </script>
 

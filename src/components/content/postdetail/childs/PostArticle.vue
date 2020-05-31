@@ -22,14 +22,13 @@
             </a>
           </div>
         </div>
-
       </div>
     </div>
     <article class="baidu_pl">
       <div id="article_content" class="article_content clearfix">
         <div id="content_views" class="markdown_views prism-atom-one-dark">
-          <h2 style="font-size:24px;line-height:32px;">springboot演示</h2>
-          <div style="height: 900px;border:1px solid black;"></div>
+          <div style="height: 900px;border:1px solid black;">
+          </div>
         </div>
       </div>
     </article>
@@ -37,8 +36,30 @@
 </template>
 
 <script>
+  import {getPostDetail} from '@/network/write'
+
   export default {
-    name: "PostArticle"
+    name: "PostArticle",
+    data() {
+      return {
+        postInfo: []
+      }
+    },
+    created() {
+      // 请求帖子数据
+      this.getPostDetail()
+    },
+    methods: {
+      /**
+       *  网络请求相关
+       */
+      getPostDetail() {
+        getPostDetail().then(res => {
+          console.log(res.data);
+          this.postInfo = res.data;
+        })
+      }
+    }
   }
 </script>
 

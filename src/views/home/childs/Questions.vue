@@ -21,9 +21,12 @@
 
   export default {
     name: "Questions",
-    components:{
+    components: {
       PostCategory,
       WeeksHot
+    },
+    created() {
+      localStorage.setItem('id','2')
     }
   }
 </script>
@@ -49,7 +52,7 @@
     float: left;
   }
 
-  .weeks-heated,.article{
+  .weeks-heated, .article {
     border-radius: 2px;
     background-color: #fff;
     margin-bottom: 15px;
@@ -60,7 +63,7 @@
     height: 460px;
   }
 
-  .article{
+  .article {
     height: 750px;
   }
 </style>

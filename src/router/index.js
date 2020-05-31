@@ -43,7 +43,7 @@ const routes = [
     component:WritePost
   },
   {
-    path:'/postdetail',
+    path:'/postdetail/:id',
     component:PostDetail
   },
   {
