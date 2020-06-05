@@ -22,7 +22,7 @@
               <el-input
                       placeholder="请输入内容"
                       prefix-icon="el-icon-search"
-                      v-model="inputSearch">
+                      v-model="inputSearch" @keyup.enter.native="sub()">
               </el-input>
             </div>
             <el-menu-item v-if="flag" index="/userinfo" class="login-user">
@@ -59,6 +59,8 @@
 </template>
 
 <script>
+  import getPostSearchData from '@/network/home'
+
   export default {
     name: "MainTabBar",
     components: {},
@@ -79,7 +81,18 @@
         this.getlocal()
       });
     },
+    watch: {
+      'inputSearch': function (newVal) {
+        // console.log(this.inputSearch);
+
+      },
+    },
     methods: {
+      sub() {
+        console.log(this.inputSearch);
+        // 2.跳转到搜索页面
+        this.$router.push({path: '/postsearch', query: {inputSearch : this.inputSearch}})
+      },
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
@@ -96,7 +109,7 @@
           this.$router.replace('/userinfo')
         }
       },
-      getlocal(){
+      getlocal() {
         if (localStorage.getItem('userName') !== null && localStorage.getItem('userName') !== undefined) {
           this.userName = localStorage.getItem('userName')
         }

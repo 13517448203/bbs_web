@@ -82,7 +82,7 @@
        * 网络请求相关
        */
       getUserinfodata() {
-        getUserinfodata(localStorage.getItem('userName')).then(res => {
+        getUserinfodata(localStorage.getItem('theyName')).then(res => {
           const test = res.data.listForumInfo;
           console.log("mypost...." + test);
           this.postInfo = test;

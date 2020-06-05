@@ -46,3 +46,15 @@ export function getHomeWeeksHotData() {
   })
 }
 
+/**
+ * 根据搜索内容查询帖子
+ */
+export function getPostSearchData(forumSearch) {
+  return request({
+    url: '/BBS/forum/search.action',
+    post: 'post',
+    params: {
+      forumTypeId
+    }
+  })
+}

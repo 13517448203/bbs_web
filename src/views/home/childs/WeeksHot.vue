@@ -2,11 +2,11 @@
   <dl class="hot-list-one">
     <dt class="hot-list-title">本周热议</dt>
     <dd v-for="item in homeWeeksHotData">
-      <a>{{item.forumTitle}}</a>
-<!--      <a>layuiadmin tab选项卡如何在文字前面加图标</a>-->
+      <a @click="postDetail(item.forumId)">{{item.forumTitle}}</a>
+      <!--      <a>layuiadmin tab选项卡如何在文字前面加图标</a>-->
       <span>
         <i class="icon-pinglun1 iconfont el-icon-chat-dot-square"></i>
-<!--        26-->
+        <!--        26-->
         {{item.commentNum}}
       </span>
     </dd>
@@ -28,6 +28,12 @@
       this.getHomeWeeksHotData()
     },
     methods: {
+      postDetail(id) {
+        //  data:帖子id
+        console.log('mypost...' + id);
+        // 2.跳转到详情页面
+        this.$router.push({path: '/postdetail', query: {id}})
+      },
       /**
        *  网络请求相关
        */

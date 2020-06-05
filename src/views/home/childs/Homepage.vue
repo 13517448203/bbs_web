@@ -25,6 +25,7 @@
     <div class="main-right">
       <!-- 签到 -->
       <div class="signIn-content">
+        <test/>
       </div>
       <!-- 公告 -->
       <div class="notice">
@@ -41,13 +42,15 @@
   import HomeTop from './HomeTop'
   import PostCategory from './PostCategory'
   import WeeksHot from './WeeksHot'
+  import test from '@/common/test'
 
   export default {
     name: "Homepage",
     components: {
       HomeTop,
       PostCategory,
-      WeeksHot
+      WeeksHot,
+      test
     },
     data() {
       return {
@@ -88,7 +91,7 @@
   .swiper-content, .signIn-content, .is-top, .article, .notice, .weeks-hot {
     border-radius: 2px;
     background-color: #fff;
-    margin-bottom: 15px;
+    margin-bottom: 13px;
     box-shadow: 0 0 5px rgba(100, 100, 100, 0.3);
   }
 

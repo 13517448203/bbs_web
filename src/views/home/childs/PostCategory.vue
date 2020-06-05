@@ -4,7 +4,7 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="综合" name="first">
           <ul class="home-top-list">
-            <li class="ul-list-li" v-for="(item,index) in homePostData" @click="postClick(index,item)">
+            <li class="ul-list-li" v-for="item in homePostData" @click="postDetail(item.forumId)">
               <div class="demo-basic--circle title-avatar">
                 <div class="block">
                   <el-avatar shape="square" :size="40" :src="item.user.userImg"></el-avatar>
@@ -28,7 +28,7 @@
         </el-tab-pane>
         <el-tab-pane label="精华" name="second">
           <ul class="home-top-list">
-            <li class="ul-list-li" v-for="(item,index) in homeBestPostData" @click="postClick(index,item)">
+            <li class="ul-list-li" v-for="item in homeBestPostData" @click="postDetail(item.forumId)">
               <div class="demo-basic--circle title-avatar">
                 <div class="block">
                   <el-avatar shape="square" :size="40" :src="item.user.userImg"></el-avatar>
@@ -79,15 +79,18 @@
       this.getHomePostData()
     },
     methods: {
+      postDetail(id) {
+        //  data:帖子id
+        console.log('mypost...' + id);
+        // 2.跳转到详情页面
+        this.$router.push({path: '/postdetail', query: {id}})
+      },
       handleClick(tab, event) {
         console.log(tab.index);
         if (tab.index === '1') {
           // 请求精华数据
           this.getHomeBestPostData()
         }
-      },
-      postClick(index, item) {
-        console.log('homepost', index);
       },
       /**
        *  网络请求相关
@@ -135,7 +138,7 @@
   .ul-list-li {
     position: relative;
     height: 75px;
-    line-height: 22px;
+    line-height: 19px;
     padding: 15px 15px 15px 60px;
     border-bottom: 1px dotted #e2e2e2;
   }
@@ -148,7 +151,7 @@
   .home-top-list li h2 .li-tab {
     top: -2px;
     height: 16px;
-    line-height: 16px;
+    line-height: 14px;
     padding: 0 5px;
     margin-right: 10px;
     font-size: 12px;

@@ -1,7 +1,7 @@
 <template>
   <div class="focus-wrapper">
     <div class="focus-top">
-      <h2>我的粉丝</h2>
+      <h2>我的关注</h2>
       <p>共<span>{{list.length}}</span>人</p>
     </div>
     <div class="focus-bottom">
@@ -13,20 +13,12 @@
                          style="background-size: 100%;line-height: 35px;margin-right: 5px"></el-avatar>
               <span>{{item.friends.userName}}</span>
             </div>
-
-            <!--            <div v-if="!item.flag">-->
-            <!--              <button type="checkbox" v-model="item.flag" class="focus-btn" @click="addFocus(key)">+关注</button>-->
-            <!--            </div>-->
-            <!--              <div v-else>-->
-            <!--                <button type="checkbox" v-model="item.flag" class="focus-btn-cancel" @click="cancelFocus(key)">取消关注</button>-->
-            <!--            </div>-->
             <div v-if="item.status === 0">
               <button class="focus-btn" @click="addFocus(key)">+关注</button>
             </div>
             <div v-else>
               <button class="focus-btn-cancel" @click="cancelFocus(key)">取消关注</button>
             </div>
-
           </div>
         </li>
       </ul>
@@ -35,14 +27,13 @@
 </template>
 
 <script>
-  import {selectMyfens, getcancelFocus, getaddFocus} from '@/network/userInfo'
+  import {selectMyfens} from '@/network/userInfo'
 
   export default {
-    name: "MyFans",
+    name: "MyFocus",
     data() {
       return {
         list: [],
-        flagFocus: true,
         focus: {
           count: 4,
           item: {
@@ -53,7 +44,8 @@
       }
     },
     created() {
-      let userName = localStorage.getItem('userName');
+
+      let userName = localStorage.getItem('theyName');
       selectMyfens(userName).then(resp => {
         this.list = resp.data;
       })
@@ -64,22 +56,15 @@
         this.list[key].status = 1;
         console.log(this.list[key].status);
 
-        //发送关注的请求   即
-        let userId = this.list[key].friendsId;
-        let friendsId = this.list[key].userId;
-        getaddFocus(userId, friendsId).then(resp => {
-        })
+        //发送关注的请求
       },
       cancelFocus(key) {
         //修改好友之间状态值 status 为0  表示取消关注
         this.list[key].status = 0;
         console.log(this.list[key].status);
 
-        //发送取消关注的请求   即
-        let userId = this.list[key].friendsId;
-        let friendsId = this.list[key].userId;
-        getcancelFocus(userId, friendsId).then(resp => {
-        })
+        //发送取消关注的请求
+
       }
     }
   }

@@ -39,8 +39,8 @@
               </div><!--/.awesome-checkbox-list -->
             </div><!--/.signin-password -->
             <div class="signin-footer">
-<!--              <button type="button" class="btn signin_btn" @click="login()">-->
-                              <button type="button" class="btn signin_btn" @click="logintest()">
+              <button type="button" class="btn signin_btn" @click="login()">
+                <!--                                              <button type="button" class="btn signin_btn" @click="logintest()">-->
                 sign in
               </button>
               <p>
@@ -71,25 +71,34 @@
     },
     methods: {
       login() {
-        console.log(this.loginForm);
-        getUserLogin(this.loginForm).then(resp => {
-          console.log('login...'+resp);
-          if (resp.data.status === 1) {
+        if (this.loginForm.userName === '' || this.loginForm.userPwd === '') {
+          this.$message({
+            message: '用户名或密码不能为空！',
+            type: 'error'
+          });
+          return false;
+        } else {
+          console.log(this.loginForm);
+          getUserLogin(this.loginForm).then(resp => {
+            console.log('login...' + resp);
+            if (resp.data.status === 1) {
               this.$message({
-              message: '用户或密码不正确！',
-              type: 'error'
-            });
-          } else {
-            this.$message({
-              message: '登录成功！',
-              type: 'success'
-            });
-            this.$addStorageEvent("userName", resp.data.userName);
-            localStorage.setItem("userHead", resp.data.userImg);
-            localStorage.setItem('flag', 'true');
-            this.$router.replace('/userinfo');
-          }
-        })
+                message: '用户或密码不正确！',
+                type: 'error'
+              });
+            } else {
+              this.$message({
+                message: '登录成功！',
+                type: 'success'
+              });
+              this.$addStorageEvent("userName", resp.data.userName);
+              localStorage.setItem("userHead", resp.data.userImg);
+              localStorage.setItem("userId", resp.data.userId);
+              localStorage.setItem('flag', 'true');
+              this.$router.replace('/userinfo');
+            }
+          })
+        }
       },
       registerClick(path) {
         this.$router.replace(path);

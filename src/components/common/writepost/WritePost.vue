@@ -51,6 +51,16 @@
         }
       };
     },
+    created() {
+      console.log(localStorage.getItem('userName'));
+      if (localStorage.getItem('userName') === null || localStorage.getItem(('userName')) === undefined) {
+        this.$message({
+          message: '请先登录！',
+          type: 'error'
+        });
+        this.$router.replace('/login')
+      }
+    },
     methods: {
       onSubmit() {
         if (this.content.forumTitle === '') {
@@ -58,17 +68,17 @@
             message: '请输入标题！',
             type: 'error'
           })
-        }else if(this.content.forumTypeId === ""){
+        } else if (this.content.forumTypeId === "") {
           this.$message({
             message: '请选择文章类型！',
             type: 'error'
           })
-        }else if(this.content.forumPath === ""){
+        } else if (this.content.forumPath === "") {
           this.$message({
             message: '内容不能为空！',
             type: 'error'
           })
-        }else{
+        } else {
           /**
            * 网络请求相关
            */
@@ -94,7 +104,7 @@
 </script>
 <style scoped>
   .wapper {
-    margin-top: 60px;
+    margin-top: 70px;
     width: 100%;
     max-width: 1920px;
     line-height: 50px;
@@ -105,9 +115,9 @@
     position: relative;
     background: #fff;
     max-width: 1110px;
-    height: 100vh;
+    height: 100%;
     margin: auto;
-    padding: 0 10px;
+    padding: 0 10px 10px 10px;
   }
 
   .submit-btn {

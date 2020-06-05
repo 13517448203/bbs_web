@@ -6,7 +6,7 @@
     </div>
     <div class="focus-bottom">
       <ul style="list-style: none">
-        <li v-for="(item,key) in list">
+        <li :key="c" v-for="(item,key) in list">
           <div class="demo-basic--circle">
             <div class="block">
               <el-avatar :size="40" :src="item.friends.userImg"
@@ -35,12 +35,16 @@
 </template>
 
 <script>
-  import {selectMyfens, getcancelFocus, getaddFocus} from '@/network/userInfo'
+  import {selectMyfens} from '@/network/userInfo'
+  import {getcancelFocus} from '@/network/userInfo'
+  import {getaddFocus} from '@/network/userInfo'
 
   export default {
     name: "MyFans",
     data() {
       return {
+        msg: '+关注',
+        my_cls: 'focus-btn',
         list: [],
         flagFocus: true,
         focus: {
@@ -53,12 +57,16 @@
       }
     },
     created() {
-      let userName = localStorage.getItem('userName');
+      let userName = localStorage.getItem('theyName');
       selectMyfens(userName).then(resp => {
         this.list = resp.data;
       })
     },
     methods: {
+      flagFocuss(flag, itemCount) {
+        this.flagFocus = flag;
+        console.log(this.flagFocus, itemCount);
+      },
       addFocus(key) {
         //修改好友之间状态值 status 为1  表示已经互关
         this.list[key].status = 1;

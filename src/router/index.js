@@ -10,6 +10,8 @@ const UserInfo = () => import('../views/userinfo/UserInfo')
 const EditInfo = () => import('../views/userinfo/childs/EditInfo')
 const PostDetail = () => import('../components/content/postdetail/PostDetail')
 const WritePost = () => import('../components/common/writepost/WritePost')
+const PostSearch = () => import('../views/home/PostSearch')
+const TheyInfo = () => import('../views/theyinfo/TheyInfo')
 
 // 1、安装插件
 Vue.use(VueRouter)
@@ -17,54 +19,62 @@ Vue.use(VueRouter)
 // 2、创建路由对象
 const routes = [
   {
-    path:'',
-    redirect:'/home',
-    meta:['首页']
+    path: '',
+    redirect: '/home',
+    meta: ['首页']
   },
   {
-    path:'/home',
-    component:Home,
-    meta:['首页']
+    path: '/home',
+    component: Home,
+    meta: ['首页']
   },
   {
-    path:'/login',
-    component:Login
+    path: '/login',
+    component: Login
   },
   {
-    path:'/register',
-    component:Register
+    path: '/register',
+    component: Register
   },
   {
-    path:'/userinfo',
-    component:UserInfo
+    path: '/userinfo',
+    component: UserInfo
   },
   {
-    path:'/writepost',
-    component:WritePost
+    path: '/theyinfo',
+    component: TheyInfo
   },
   {
-    path:'/postdetail/:id',
-    component:PostDetail
+    path: '/writepost',
+    component: WritePost
   },
   {
-    path:'/editinfo',
-    component:EditInfo
+    path: '/postsearch',
+    component: PostSearch
   },
   {
-    path:'/specialArea',
-    component:SpecialArea,
-    meta:['专区']
+    path: '/postdetail',
+    component: PostDetail
   },
   {
-    path:'/generalize',
-    component:Generalize,
-    meta:['推广']
+    path: '/editinfo',
+    component: EditInfo
+  },
+  {
+    path: '/specialArea',
+    component: SpecialArea,
+    meta: ['专区']
+  },
+  {
+    path: '/generalize',
+    component: Generalize,
+    meta: ['推广']
   }
 ]
 
 const router = new VueRouter({
   routes,
-  mode : 'history'
+  mode: 'history'
 })
 
 // 3、导出

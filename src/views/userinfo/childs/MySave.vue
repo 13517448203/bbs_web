@@ -1,34 +1,40 @@
 <template>
-  <ul class="post">
-    <li class="post-li"v-for="itemdata of postInfo" >
-      <div class="post-container" v-for="item in itemdata.listForumInfo">
-        <div class="post-content" @click="postDetail(item.forumId)">
-          <h2>{{item.forumTitle}}</h2>
-          <p @click="postDetail(item.forumId)">{{item.forumPath}}</p>
-          <div class="post-bottom">
-            <div class="demo-basic--circle">
-              <div class="block">
-                <el-avatar :size="35" :src="item.userImg"
-                           style="background-size: 100%;line-height: 35px;margin-right: 5px"></el-avatar>
-                <h4 class="post-time">{{item.forumTime}}</h4>
-                <h3>{{item.forumName}}</h3>
+  <div>
+    <ul v-if="flag" class="post">
+      <li class="post-li" v-for="itemdata of postInfo">
+        <div class="post-container" v-for="item in itemdata.listForumInfo">
+          <div class="post-content" @click="postDetail(item.forumId)">
+            <h2>{{item.forumTitle}}</h2>
+            <p @click="postDetail(item.forumId)" v-html="item.forumPath"></p>
+            <div class="post-bottom">
+              <div class="demo-basic--circle">
+                <div class="block">
+                  <el-avatar :size="35" :src="item.user.userImg"
+                             style="background-size: 100%;line-height: 35px;margin-right: 5px"></el-avatar>
+                  <h4 class="post-time">{{item.forumTime}}</h4>
+                  <h3>{{item.user.userName}}</h3>
+                </div>
               </div>
-            </div>
-            <div class="poster-num">
-              <ul>
-                <li v-if="item.forumLike>0"><i class="el-icon-thumb"></i>{{item.forumLike}}
-                </li>
-                <li v-if="item.forumClick>0"><i class="el-icon-view"></i>{{item.forumClick}}
-                </li>
-                <li v-if="item.commentNum>0"><i class="el-icon-chat-dot-square"></i>{{item.commentNum}}
-                </li>
-              </ul>
+              <div class="poster-num">
+                <ul>
+                  <li v-if="item.forumLike>0"><i class="el-icon-thumb"></i>{{item.forumLike}}
+                  </li>
+                  <li v-if="item.forumClick>0"><i class="el-icon-view"></i>{{item.forumClick}}
+                  </li>
+                  <li v-if="item.commentNum>0"><i class="el-icon-chat-dot-square"></i>{{item.commentNum}}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </li>
-  </ul>
+      </li>
+    </ul>
+    <div v-else class="no-message">
+      <p>暂无消息</p>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -39,6 +45,7 @@
     name: "MySave",
     data() {
       return {
+        flag: false,
         postInfo: {}
       }
     },
@@ -47,10 +54,11 @@
       this.getMySavedata()
     },
     methods: {
-      postDetail(data) {
+      postDetail(id) {
         //  data:帖子id
-        console.log(data);
-        this.$router.push('/postDetail')
+        console.log('mysave...' + id);
+        // 2.跳转到详情页面
+        this.$router.push({path: '/postdetail', query: {id}})
       },
       /**
        * 网络请求相关
@@ -59,6 +67,9 @@
         getMySavedata(localStorage.getItem('userName')).then(res => {
           console.log("mypost...." + res);
           this.postInfo = res.data;
+          if (this.postInfo.length !== 0) {
+            this.flag = true;
+          }
         })
       }
     }
@@ -66,6 +77,20 @@
 </script>
 
 <style scoped>
+  .no-message {
+    width: 100%;
+    position: relative;
+    height: 150px;
+  }
+
+  .no-message p {
+    position: absolute;
+    top: 35%;
+    left: 45%;
+    color: #b0b9c7;
+    font-size: 18px;
+  }
+
   ul li {
     list-style: none;
   }

@@ -2,23 +2,22 @@
   <div class="focus-wrapper">
     <div class="focus-top">
       <h2>我的关注</h2>
-      <p>共<span>{{focus.count}}</span>人</p>
+      <p>共<span>{{list.length}}</span>人</p>
     </div>
     <div class="focus-bottom">
       <ul style="list-style: none">
-        <li v-for="item in focus.count">
+        <li v-for="(item,key) in list">
           <div class="demo-basic--circle">
             <div class="block">
-              <el-avatar :size="40" :src="focus.item.header"
+              <el-avatar :size="40" :src="item.friends.userImg"
                          style="background-size: 100%;line-height: 35px;margin-right: 5px"></el-avatar>
-              <span>{{focus.item.name}}</span>
+              <span>{{item.friends.userName}}</span>
             </div>
-
-            <div v-if="flagFocus">
-              <button class="focus-btn-cancel" @click="flagFocuss(!flagFocus,item)">取消关注</button>
+            <div v-if="!item.flag">
+              <button class="focus-btn" @click="addFocus(key)">+关注</button>
             </div>
             <div v-else>
-              <button class="focus-btn" @click="flagFocuss(!flagFocus,item)">+关注</button>
+              <button class="focus-btn-cancel" @click="cancelFocus(key)">取消关注</button>
             </div>
           </div>
         </li>
@@ -28,11 +27,13 @@
 </template>
 
 <script>
+  import {selectFriends, getaddFocus, getcancelFocus} from '@/network/userInfo'
+
   export default {
     name: "MyFocus",
     data() {
       return {
-        flagFocus: true,
+        list: [],
         focus: {
           count: 4,
           item: {
@@ -42,10 +43,35 @@
         }
       }
     },
+    created() {
+
+      let userName = localStorage.getItem('userName');
+      selectFriends(userName).then(resp => {
+        this.list = resp.data;
+      })
+    },
     methods: {
-      flagFocuss(flag, itemCount) {
-        this.flagFocus = flag;
-        console.log(this.flagFocus, itemCount);
+      addFocus(key) {
+        //修改好友之间状态值 status 为1  表示已经互关
+        this.list[key].flag = true;
+        console.log(this.list[key].status);
+
+        //发送关注的请求   即
+        let userId = this.list[key].userId;
+        let friendsId = this.list[key].friendsId;
+        getaddFocus(userId, friendsId).then(resp => {
+        })
+      },
+      cancelFocus(key) {
+        //修改好友之间状态值 status 为0  表示取消关注
+        this.list[key].flag = false;
+        console.log(this.list[key].status);
+
+        //发送取消关注的请求   即
+        let userId = this.list[key].userId;
+        let friendsId = this.list[key].friendsId;
+        getcancelFocus(userId, friendsId).then(resp => {
+        })
       }
     }
   }
@@ -96,7 +122,6 @@
   .block {
     float: left;
   }
-
 
   .focus-btn {
     height: 35px;

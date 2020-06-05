@@ -91,7 +91,7 @@ export function updatePersonInfo(userForm) {
 /**
  *  修改密码
  */
-export function updatePwd(userName,olduserPwd,userPwd) {
+export function updatePwd(userName, olduserPwd, userPwd) {
   return request({
     url: 'BBS/updatepwd.action',
     post: 'post',
@@ -99,6 +99,64 @@ export function updatePwd(userName,olduserPwd,userPwd) {
       userName,
       olduserPwd,
       userPwd
+    }
+  })
+}
+
+
+/**
+ *  我的粉丝
+ */
+export function selectMyfens(userName) {
+  return request({
+    url: 'BBS/selectfen.action',
+    post: 'post',
+    params: {
+      userName,
+    }
+  })
+}
+
+
+/**
+ *  我的关注
+ */
+export function selectFriends(userName) {
+  return request({
+    url: 'BBS/selectfriends.action',
+    post: 'post',
+    params: {
+      userName,
+    }
+  })
+}
+
+
+/**
+ *  添加关注
+ */
+export function getaddFocus(userId,friendsId) {
+  return request({
+    url: 'BBS/addfocus.action',
+    post: 'post',
+    params: {
+      userId,
+      friendsId
+    }
+  })
+}
+
+
+/**
+ *  取消关注
+ */
+export function getcancelFocus(userId,friendsId) {
+  return request({
+    url: 'BBS/cancelfocus.action',
+    post: 'post',
+    params: {
+      userId,
+      friendsId
     }
   })
 }

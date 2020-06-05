@@ -3,7 +3,7 @@
     <div class="home-top-title">
       <a>置顶</a>
       <ul class="home-top-list">
-        <li class="ul-list-li" v-for="(item,index) in homeTopData" @click="postClick(index,item)">
+        <li class="ul-list-li" v-for="item in homeTopData" @click="postDetail(item.forumId)">
           <!--        <li class="ul-list-li" v-for="item in 4">-->
           <div class="demo-basic--circle title-avatar">
             <div class="block">
@@ -59,12 +59,14 @@
       showPostStatus: function (value) {
         return formatPostStatus(value)
       }
-    } ,
+    },
     methods: {
-      postClick(index, item) {
-        console.log('hometop', index);
-      }
-      ,
+      postDetail(id) {
+        //  data:帖子id
+        console.log('mypost...' + id);
+        // 2.跳转到详情页面
+        this.$router.push({path: '/postdetail', query: {id}})
+      },
       /**
        *  网络请求相关
        */

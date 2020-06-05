@@ -4,27 +4,22 @@
       <div class="user-base-info">
         <div class="user-base-info-main">
           <div class="user-info-header-img">
-            <img :src="personInfo.userHead" alt="" style="width:150px;height:150px;border-radius: 50%;margin:auto">
+            <img :src="userHead" alt="" style="width:150px;height:150px;border-radius: 50%;margin:auto">
           </div>
           <div class="user-info-right">
             <div class="user-info-name">
               <div style="float: left;">
-                <h2 id="user_name">{{personInfo.userName}}</h2>
-                <p class="person-profile">{{userIntroductory}}</p>
+                <h2 id="user_name">{{userName}}</h2>
+                <p class="person-profile">这是一个简介~~~~~~~</p>
               </div>
               <div class="user-info-edit">
-                <button type="button" class="btn write_btn" @click="editClick('/editinfo')">
-                  <i class="el-icon-edit-outline"></i>
-                  编辑
+                <button type="button" class="btn write_btn">
+                  +关注
                 </button>
               </div>
             </div>
             <div class="user-info-other">
               <ul>
-                <!--                <li v-for="item in itemData">-->
-                <!--                  <p>{{item.name}}</p>-->
-                <!--                  <span>{{item.data}}</span>-->
-                <!--                </li>-->
                 <li>
                   <p>粉丝</p>
                   <span>{{fans}}</span>
@@ -71,14 +66,14 @@
 
 <script>
   import MyPost from './childs/MyPost'
-  import MyMessage from './childs/MyMessage'
+  import MyMessage from '../userinfo/childs/MyMessage'
   import MyFocus from './childs/MyFocus'
   import MySave from './childs/MySave'
   import MyFans from './childs/MyFans'
   import {getUserinfodata, getUserdata} from '@/network/userInfo'
 
   export default {
-    name: "UserInfo",
+    name: "TheyInfo",
     components: {
       MyPost,
       MyMessage,
@@ -88,34 +83,23 @@
     },
     data() {
       return {
+        theyName: '',
         activeName: 'first',
         fans: '',
         friendsNum: '',
         forumNum: '',
         userLike: '',
-        userIntroductory:'',
-        personInfo: {
-          userName: '林子大-',
-          userHead: require('@/assets/img/header.jpg'),
-          userInfoData: [],
-        },
-        // itemData: [
-        //   {name: '粉丝', data: this.fans},
-        //   {name: '关注', data: this.friendsNum},
-        //   {name: '帖子', data: this.forumNum},
-        //   {name: '获赞', data: this.userLike},
-        // ]
+        userName: '林子大-',
+        userHead: require('@/assets/img/header.jpg'),
+        personInfo: []
       }
     },
     created() {
-      // 头像和用户名的数据导入
-      if (localStorage.getItem('userName') !== null && localStorage.getItem('userName') !== undefined) {
-        this.personInfo.userName = localStorage.getItem('userName')
-      }
-      if (localStorage.getItem('userHead') !== null && localStorage.getItem('userHead') !== undefined) {
-        this.personInfo.userHead = localStorage.getItem('userHead')
-      }
-      console.log('userinfo.....' + this.personInfo.userHead);
+      // 保存携带的userId
+      this.theyName = this.$route.query.userName;
+      localStorage.setItem('theyName', this.theyName);
+
+      console.log('theyinfo......' + this.theyName);
 
       // 请求个人信息的粉丝数  我的帖子 等数据
       this.getUserinfodata()
@@ -131,17 +115,17 @@
        * 网络请求相关
        */
       getUserinfodata() {
-        getUserinfodata(localStorage.getItem('userName')).then(res => {
-          // console.log(res);
-          this.personInfo.userInfoData = res.data.listForumInfo;
-          this.userIntroductory = res.data.userIntroductory;
-          console.log("userinfo...." + this.personInfo.userInfoData);
+        console.log('getUserinfodata..They...' + this.theyName);
+        getUserinfodata(this.theyName).then(res => {
+          console.log(res.data);
+          this.userHead = res.data.userImg;
+          this.userName = res.data.userName;
         })
       },
       getUserdata() {
-        getUserdata(localStorage.getItem('userName')).then(res => {
+        getUserdata(this.theyName).then(res => {
           // console.log(res);
-          this.fans = res.data.fenNum === undefined ? 0 : res.data.fenNum;
+          this.fans = res.data.fen === undefined ? 0 : res.data.fen;
           this.friendsNum = res.data.friendsNum === undefined ? 0 : res.data.friendsNum;
           this.forumNum = res.data.forumNum === undefined ? 0 : res.data.forumNum;
           this.userLike = res.data.userLike === undefined ? 0 : res.data.userLike;
@@ -236,11 +220,18 @@
     padding: 0;
     height: 40px;
     line-height: 40px;
-    background: #393D49;
     border-radius: 50px;
-    border: 0px;
-    color: #fff;
+    color: #ca0c16;
+    background: #fde3e4;
+    border: 1px solid #ca0c16;
     font-size: 16px;
     cursor: pointer;
   }
+
+  .btn.write_btn:hover {
+    color: #CA0C16;
+    background: #FCC7CA;
+    border: 1px solid #CA0C16;
+  }
+
 </style>
