@@ -27,12 +27,14 @@
       <div class="signIn-content">
         <test/>
       </div>
-      <!-- 公告 -->
-      <div class="notice">
-      </div>
+
       <!-- 本周热议 -->
       <div class="weeks-hot">
         <weeks-hot/>
+      </div>
+      <!-- 公告 -->
+      <div class="notice">
+        <friends-link/>
       </div>
     </div>
   </div>
@@ -43,6 +45,7 @@
   import PostCategory from './PostCategory'
   import WeeksHot from './WeeksHot'
   import test from '@/common/test'
+  import FriendsLink from './FriendsLink'
 
   export default {
     name: "Homepage",
@@ -50,7 +53,8 @@
       HomeTop,
       PostCategory,
       WeeksHot,
-      test
+      test,
+      FriendsLink
     },
     data() {
       return {
@@ -132,6 +136,6 @@
   }
 
   .weeks-hot {
-    height: 460px;
+    height: 350px;
   }
 </style>

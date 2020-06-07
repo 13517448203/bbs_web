@@ -84,7 +84,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 335px;
+    width: 365px;
     height: 165px;
     padding: 0;
     margin: 0;

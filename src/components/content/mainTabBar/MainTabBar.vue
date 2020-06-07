@@ -18,7 +18,7 @@
             <el-menu-item index="/home" class="el-icon-s-home">首页</el-menu-item>
             <el-menu-item index="/specialArea" class="el-icon-reading">专区</el-menu-item>
             <el-menu-item index="/generalize" class="el-icon-thumb">推广</el-menu-item>
-            <div class="demo-input-suffix search">
+            <div class="demo-input-suffix search" id="test">
               <el-input
                       placeholder="请输入内容"
                       prefix-icon="el-icon-search"
@@ -81,17 +81,16 @@
         this.getlocal()
       });
     },
-    watch: {
-      'inputSearch': function (newVal) {
-        // console.log(this.inputSearch);
-
-      },
-    },
     methods: {
       sub() {
         console.log(this.inputSearch);
         // 2.跳转到搜索页面
-        this.$router.push({path: '/postsearch', query: {inputSearch : this.inputSearch}})
+        let search = this.inputSearch;
+        if(search===''){
+          this.$router.push('/postsearch')
+        }else {
+          this.$router.push({path: '/postsearch', query: {search}})
+        }
       },
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
@@ -139,7 +138,7 @@
 
   .header-top {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: auto;
     padding-left: 20px;
   }
@@ -173,10 +172,12 @@
     width: 200px;
     float: left;
     line-height: 60px;
-    margin: 0 20px 0 310px;
+    margin: 0 20px 0 410px;
   }
 
   .login-user {
+    position: absolute;
+    left: 900px;
     color: #FFF;
     font-size: 30px;
     line-height: 60px;

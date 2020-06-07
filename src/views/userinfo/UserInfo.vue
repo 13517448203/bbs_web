@@ -162,7 +162,7 @@
   }
 
   .user-info {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 20px auto;
     background-color: #fff;
   }

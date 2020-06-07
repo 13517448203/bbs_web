@@ -20,12 +20,12 @@
             <!--              <div v-else>-->
             <!--                <button type="checkbox" v-model="item.flag" class="focus-btn-cancel" @click="cancelFocus(key)">取消关注</button>-->
             <!--            </div>-->
-            <div v-if="item.status === 0">
-              <button class="focus-btn" @click="addFocus(key)">+关注</button>
-            </div>
-            <div v-else>
-              <button class="focus-btn-cancel" @click="cancelFocus(key)">取消关注</button>
-            </div>
+<!--            <div v-if="item.status === 0">-->
+<!--              <button class="focus-btn" @click="addFocus(key)">+关注</button>-->
+<!--            </div>-->
+<!--            <div v-else>-->
+<!--              <button class="focus-btn-cancel" @click="cancelFocus(key)">取消关注</button>-->
+<!--            </div>-->
 
           </div>
         </li>

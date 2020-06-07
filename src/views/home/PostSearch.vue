@@ -1,59 +1,92 @@
 <template>
   <div class="wrapper">
-    <div class="user-info">
+    <div class="demo-input-suffix search">
+      <el-input
+              placeholder="请输入内容"
+              prefix-icon="el-icon-search"
+              v-model="inputSearch" @keyup.enter.native="sub()">
+      </el-input>
+    </div>
+
+    <div v-if="flag" class="user-info">
       <ul class="search-list">
-        <li class="ul-list-li" v-for="item in 5" @click="postDetail(item)">
+        <li class="ul-list-li" v-for="item in searchInfo" @click="postDetail(item.forumId)">
           <div class="demo-basic--circle title-avatar">
             <div class="block">
-              <el-avatar shape="square" :size="40" :src="headerPhoto"></el-avatar>
+              <el-avatar shape="square" :size="40" :src="item.user.userImg"></el-avatar>
             </div>
           </div>
           <h2>
-            <a class="li-tab">风往北吹</a>
-            <a>如果云层是天空的一封信</a>
+            <a class="li-tab">{{item.forumTypeId | showPostStatus}}</a>
+            <a>{{item.forumTitle}}</a>
           </h2>
           <div class="li-info">
-            <a><cite>11</cite></a>
-            <span>11</span>
+            <a><cite>{{item.user.userName}}</cite></a>
+            <span>{{item.forumTime}}</span>
             <span class="li-list-nums">
-                    <i title="获赞" class="icon-pinglun1 iconfont el-icon-thumb">11</i>
-                    <i title="浏览" class="icon-pinglun1 iconfont el-icon-view">11</i>
-                    <i title="回答" class="icon-pinglun1 iconfont el-icon-chat-dot-square">11</i>
+                    <i title="获赞" class="icon-pinglun1 iconfont el-icon-thumb">{{item.forumLike}}</i>
+                    <i title="浏览" class="icon-pinglun1 iconfont el-icon-view">{{item.forumClick}}</i>
+                    <i title="回答" class="icon-pinglun1 iconfont el-icon-chat-dot-square">{{item.commentNum}}</i>
                 </span>
           </div>
         </li>
       </ul>
+    </div>
+    <div v-else class="user-info-none">
+      <p>你搜了个寂寞</p>
     </div>
   </div>
 </template>
 
 <script>
   import {getPostSearchData} from '@/network/home'
+  import {formatPostStatus} from '@/common/post'
 
   export default {
     name: "PostSearch",
     data() {
       return {
         search: '',
+        inputSearch: '',
+        flag: false,
         headerPhoto: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+        searchInfo: []
       }
     },
     created() {
       // 1.保存携带的数据
       console.log('PostSearch。。。');
 
-      this.search = this.$route.query.inputsearch;
+      this.inputSearch = this.$route.query.search;
 
-      console.log('search..' + this.search);
+      console.log('search..' + this.inputSearch);
       // 根据携带的input的内容进行搜索
-      getPostSearchData(this.search).then(res => {
-        console.log(res);
-      })
+      this.getPostSearchData()
     },
-    destroyed() {
-      console.log('none');
+    filters: {
+      showPostStatus: function (value) {
+        return formatPostStatus(value)
+      }
     },
     methods: {
+      sub() {
+        console.log(this.inputSearch);
+        if (this.inputSearch === '') {
+          this.flag = false
+        } else {
+          this.getPostSearchData()
+        }
+      },
+      getPostSearchData() {
+        getPostSearchData(this.inputSearch).then(res => {
+          if (res.data === 1) {
+            this.flag = false;
+          } else {
+            this.flag = true;
+            this.searchInfo = res.data;
+          }
+        })
+      },
       postDetail(id) {
         //  data:帖子id
         console.log('mypost...' + id);
@@ -74,8 +107,16 @@
   }
 
   .user-info {
-    max-width: 1050px;
+    max-width: 1140px;
     margin: 20px auto;
+  }
+
+  .user-info-none {
+    position: relative;
+    max-width: 1140px;
+    min-height: 300px;
+    margin: 20px auto;
+    background-color: #fff;
   }
 
   .title-avatar {
@@ -168,5 +209,23 @@
   .iconfont {
     font-size: 16px;
     font-style: normal;
+  }
+
+  .search {
+    position: fixed;
+    left: 1178px;
+    top: 1px;
+    width: 200px;
+    float: left;
+    line-height: 60px;
+    z-index: 999;
+  }
+
+  .user-info-none p {
+    position: absolute;
+    top: 35%;
+    left: 45%;
+    color: #b0b9c7;
+    font-size: 18px;
   }
 </style>

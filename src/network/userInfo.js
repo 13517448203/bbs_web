@@ -160,3 +160,19 @@ export function getcancelFocus(userId,friendsId) {
     }
   })
 }
+
+
+/**
+ *  他人信息 关注状态
+ */
+export function theyInfoFocus(userId,friendsId) {
+  return request({
+    url: 'BBS/forum/theyinfofocusstatus.action',
+    post: 'post',
+    params: {
+      userId,
+      friendsId
+    }
+  })
+}
+

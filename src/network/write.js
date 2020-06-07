@@ -147,3 +147,17 @@ export function insertLikeForum(forumId,likerId) {
     }
   })
 }
+
+
+/**
+ *  图片验证码验证
+ */
+export function validateImageCode(imageCode) {
+  return request({
+    url: '/BBS/forum/validateimagecode.action',
+    post: 'post',
+    params: {
+      imageCode,
+    }
+  })
+}

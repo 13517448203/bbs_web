@@ -154,7 +154,7 @@
   }
 
   .user-info {
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 10px auto;
   }
 
@@ -291,4 +291,5 @@
     margin-top: 8px;
     padding-bottom: 8px;
   }
+
 </style>

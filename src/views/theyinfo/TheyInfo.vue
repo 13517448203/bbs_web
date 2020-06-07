@@ -10,13 +10,20 @@
             <div class="user-info-name">
               <div style="float: left;">
                 <h2 id="user_name">{{userName}}</h2>
-                <p class="person-profile">这是一个简介~~~~~~~</p>
+                <p class="person-profile">{{userIntroductory}}</p>
               </div>
-              <div class="user-info-edit">
-                <button type="button" class="btn write_btn">
+              <div v-if="focus === 0" class="user-info-edit">
+                <button type="button" @click="addFocus()" class="btn write_btn">
                   +关注
                 </button>
               </div>
+
+              <div v-else class="user-info-edit">
+                <button type="button" class="btn write_btn" @click="cancelFocus()" >
+                  取消关注
+                </button>
+              </div>
+
             </div>
             <div class="user-info-other">
               <ul>
@@ -42,19 +49,19 @@
         </div>
         <div class="user-base-info-bottom">
           <el-tabs type="border-card">
-            <el-tab-pane><span slot="label"><i class="el-icon-document"></i> 我的帖子</span>
+            <el-tab-pane><span slot="label"><i class="el-icon-document"></i> TA的帖子</span>
               <my-post/>
             </el-tab-pane>
-            <el-tab-pane><span slot="label"><i class="el-icon-chat-dot-round"></i> 我的消息</span>
+            <el-tab-pane><span slot="label"><i class="el-icon-chat-dot-round"></i> TA的消息</span>
               <my-message/>
             </el-tab-pane>
-            <el-tab-pane><span slot="label"><i class="el-icon-star-on"></i> 我的收藏</span>
+            <el-tab-pane><span slot="label"><i class="el-icon-star-on"></i> TA的收藏</span>
               <my-save/>
             </el-tab-pane>
-            <el-tab-pane><span slot="label"><i class="el-icon-view"></i> 我的关注</span>
+            <el-tab-pane><span slot="label"><i class="el-icon-view"></i> TA的关注</span>
               <my-focus/>
             </el-tab-pane>
-            <el-tab-pane><span slot="label"><i class="el-icon-s-custom"></i> 我的粉丝</span>
+            <el-tab-pane><span slot="label"><i class="el-icon-s-custom"></i> TA的粉丝</span>
               <my-fans/>
             </el-tab-pane>
           </el-tabs>
@@ -70,7 +77,7 @@
   import MyFocus from './childs/MyFocus'
   import MySave from './childs/MySave'
   import MyFans from './childs/MyFans'
-  import {getUserinfodata, getUserdata} from '@/network/userInfo'
+  import {getUserinfodata, getUserdata,theyInfoFocus,getaddFocus,getcancelFocus} from '@/network/userInfo'
 
   export default {
     name: "TheyInfo",
@@ -83,6 +90,9 @@
     },
     data() {
       return {
+        forumerId:0,
+        userIntroductory:'',
+        focus:0,
         theyName: '',
         activeName: 'first',
         fans: '',
@@ -106,11 +116,38 @@
 
       // 请求个人信息数据
       this.getUserdata()
+
+
     },
     methods: {
       editClick(path) {
         this.$router.push(path)
       },
+
+
+      addFocus(){
+        //改变status
+        this.focus = 1;
+        this.fans = this.fans + 1;
+
+
+        let userId = localStorage.getItem("userId");
+        getaddFocus(userId,this.forumerId).then(res => {
+        })
+      },
+
+
+      cancelFocus(){
+        //改变status
+        this.focus = 0;
+        this.fans = this.fans - 1;
+
+        let userId = localStorage.getItem("userId");
+        getcancelFocus(userId,this.forumerId).then(res => {
+        })
+      },
+
+
       /**
        * 网络请求相关
        */
@@ -120,12 +157,26 @@
           console.log(res.data);
           this.userHead = res.data.userImg;
           this.userName = res.data.userName;
+          this.forumerId = res.data.userId;
+          this.userIntroductory = res.data.userIntroductory;
+          console.log("---------+++++++++++" + res.data.userId);
+          console.log("---------+++++++++++" + this.forumerId);
+
+          //得到是否关注该用户的状态值
+          let userId = localStorage.getItem("userId");
+          let friendsId = res.data.userId;
+          console.log("adhskdhajsdhasd" + userId);
+          console.log("adhskdhajsdhasd" + friendsId);
+          theyInfoFocus(userId,friendsId).then(res => {
+            this.focus = res.data;
+            console.log("***********/////////////" + this.focus)
+          })
         })
       },
       getUserdata() {
         getUserdata(this.theyName).then(res => {
           // console.log(res);
-          this.fans = res.data.fen === undefined ? 0 : res.data.fen;
+          this.fans = res.data.fenNum === undefined ? 0 : res.data.fenNum;
           this.friendsNum = res.data.friendsNum === undefined ? 0 : res.data.friendsNum;
           this.forumNum = res.data.forumNum === undefined ? 0 : res.data.forumNum;
           this.userLike = res.data.userLike === undefined ? 0 : res.data.userLike;
@@ -146,7 +197,7 @@
   }
 
   .user-info {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 20px auto;
     background-color: #fff;
   }

@@ -3,31 +3,34 @@
     <div class="category-top-title">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="综合" name="first">
-          <ul class="home-top-list">
-            <li class="ul-list-li" v-for="item in homePostData" @click="postDetail(item.forumId)">
-              <div class="demo-basic--circle title-avatar">
-                <div class="block">
-                  <el-avatar shape="square" :size="40" :src="item.user.userImg"></el-avatar>
+          <el-scrollbar wrapClass="scrollbar-wrap" style="height: 680px;overflow: auto;overflow-x: hidden;" ref="scrollbarContainer">
+            <ul class="home-top-list">
+              <li class="ul-list-li" v-for="item in homePostData" @click="postDetail(item.forumId)">
+                <div class="demo-basic--circle title-avatar">
+                  <div class="block">
+                    <el-avatar shape="square" :size="40" :src="item.user.userImg"></el-avatar>
+                  </div>
                 </div>
-              </div>
-              <h2>
-                <a class="li-tab">{{item.forumTypeId | showPostStatus}}</a>
-                <a>{{item.forumTitle}}</a>
-              </h2>
-              <div class="li-info">
-                <a><cite>{{item.user.userName}}</cite></a>
-                <span>{{item.forumTime}}</span>
-                <span class="li-list-nums">
+                <h2>
+                  <a class="li-tab">{{item.forumTypeId | showPostStatus}}</a>
+                  <a>{{item.forumTitle}}</a>
+                </h2>
+                <div class="li-info">
+                  <a><cite>{{item.user.userName}}</cite></a>
+                  <span>{{item.forumTime}}</span>
+                  <span class="li-list-nums">
                     <i title="获赞" class="icon-pinglun1 iconfont el-icon-thumb"> {{item.forumLike}}</i>
                     <i title="浏览" class="icon-pinglun1 iconfont el-icon-view"> {{item.forumClick}}</i>
                     <i title="回答" class="icon-pinglun1 iconfont el-icon-chat-dot-square"> {{item.commentNum}}</i>
                 </span>
-              </div>
-            </li>
-          </ul>
+                </div>
+              </li>
+            </ul>
+          </el-scrollbar>
         </el-tab-pane>
+
         <el-tab-pane label="精华" name="second">
-          <ul class="home-top-list">
+          <ul class="home-top-list" style=" height:690px; overflow-y:auto;">
             <li class="ul-list-li" v-for="item in homeBestPostData" @click="postDetail(item.forumId)">
               <div class="demo-basic--circle title-avatar">
                 <div class="block">
@@ -65,8 +68,8 @@
       return {
         squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
         activeName: 'first',
-        homePostData: [],
-        homeBestPostData: [],
+        homeBestPostData:[],
+        homePostData:[]
       }
     },
     filters: {
@@ -112,6 +115,7 @@
 </script>
 
 <style scoped>
+  .el-scrollbar__wrap{overflow-x: hidden;}
   .category-top-title {
     position: relative;
     height: 50px;

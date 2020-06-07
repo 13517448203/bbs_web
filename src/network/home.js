@@ -49,12 +49,12 @@ export function getHomeWeeksHotData() {
 /**
  * 根据搜索内容查询帖子
  */
-export function getPostSearchData(forumSearch) {
+export function getPostSearchData(forumTitle) {
   return request({
     url: '/BBS/forum/search.action',
     post: 'post',
     params: {
-      forumTypeId
+      forumTitle,
     }
   })
 }

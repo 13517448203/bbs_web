@@ -50,7 +50,7 @@
   }
 
   .edit-user-info {
-    max-width: 1000px;
+    max-width: 1140px;
     margin: 20px auto;
     background-color: #fff;
   }

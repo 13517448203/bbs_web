@@ -223,13 +223,14 @@
     position: absolute;
     top: 0px;
     right: 0px;
+    cursor: pointer;
     color: #4d4d4d;
     text-align: left;
-    cursor: pointer;
   }
 
   .commentlike-after {
     color: #e33e33;
+
   }
 
   .opt-box .right-box .btn-comment {

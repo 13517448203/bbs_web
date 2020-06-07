@@ -115,6 +115,7 @@
         cancelLikeForum(id, LikerId).then(res => {
         })
       },
+
       /**
        * 添加点赞
        */
